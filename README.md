@@ -14,7 +14,7 @@ This repository contains a React frontend and a Flask backend.
 ```bash
 cd frontend
 npm install
-npm start          # development server
+npm run dev          # development server
 npm run build      # production build
 ```
 
