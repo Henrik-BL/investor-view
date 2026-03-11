@@ -1,0 +1,3 @@
+Flask>=2.0
+# add gunicorn for production
+gunicorn>=20.0
