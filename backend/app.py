@@ -1,14 +1,25 @@
 import os
 from flask import Flask, jsonify, send_from_directory
+from flask_cors import CORS
+
+from backend.routes.screener import screener_bp
 
 # when building frontend, adjust this path if needed ("build" for CRA)
 static_folder = os.path.join(os.path.dirname(__file__), "..", "frontend", "build")
 
 app = Flask(__name__, static_folder=static_folder, static_url_path="")
 
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
+app.register_blueprint(screener_bp)
+
 @app.route("/api/hello")
 def hello():
     return jsonify(message="Hello from Flask")
+
+@app.route("/api/health")
+def health_check():
+    return jsonify(status="ok"), 200
 
 # serve React app in production
 @app.route("/", defaults={"path": ""})

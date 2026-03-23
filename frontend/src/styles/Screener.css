@@ -1,0 +1,125 @@
+.screener-container {
+  padding: 2rem;
+}
+
+.add-stock-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.ticker-input {
+  width: 240px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.ticker-input:focus {
+  outline: none;
+  border-color: #4a5568;
+  box-shadow: 0 0 0 2px rgba(74, 85, 104, 0.15);
+}
+
+.add-stock-btn {
+  background-color: #4a5568;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-stock-btn:hover {
+  background-color: #2d3748;
+}
+
+.add-stock-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.stocks-table-container {
+  max-height: 680px;
+  overflow-y: auto;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+}
+
+.stocks-table {
+  border-collapse: collapse;
+  width: 100%;
+  border: none;
+}
+
+.stocks-table thead {
+  background-color: #f8fafc;
+  color: #2d3748;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.stocks-table thead th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #cbd5e0;
+  background-color: #f8fafc;
+}
+
+.sort-header-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sort-header-btn .sort-indicator {
+  color: #94a3b8;
+  font-size: 0.86rem;
+  line-height: 1;
+}
+
+.sort-header-btn.active .sort-indicator {
+  color: #334155;
+}
+
+.stocks-table tbody td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.stocks-table tbody tr {
+  transition: none;
+}
+
+.stocks-table tbody tr:hover {
+  background-color: transparent;
+}
+
+.stocks-table .symbol {
+  font-weight: 600;
+  color: #282c34;
+}
+
+.stocks-table .positive {
+  color: #22c55e;
+  font-weight: 500;
+}
+
+.stocks-table .negative {
+  color: #ef4444;
+  font-weight: 500;
+}

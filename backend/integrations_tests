@@ -1,0 +1,7 @@
+Invoke-WebRequest -Uri "http://localhost:5000/api/screener/add_ticker" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{"ticker": "AAPL"}'
+
+Invoke-WebRequest -Uri "http://localhost:5000/api/screener/add_ticker" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{"ticker": "INVALID_TICKER"}'
+
+Invoke-WebRequest -Uri "http://localhost:5000/api/screener/screener_list" -Method GET
+
+
