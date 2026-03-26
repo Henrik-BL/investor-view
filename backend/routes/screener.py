@@ -41,6 +41,7 @@ def screener_list():
             "peg": stock_data.peg,
             "revenue_growth": stock_data.revenue_growth,
             "earnings_growth": stock_data.earnings_growth,
+            "rsi_14": stock_data.rsi_14
         })
 
     return jsonify({ "screener_list": screener_items })
@@ -86,3 +87,20 @@ def update_data():
             'X-Accel-Buffering': 'no',
         },
     )
+
+
+
+@screener_bp.route('/fetch_stock_data', methods=['GET'])
+def fetch_stock_data():
+    ticker_input = request.args.get('ticker', '').strip()
+
+    if not ticker_input:
+        return jsonify({"Message": "No ticker provided"}), 400
+
+    existing_tickers = hcnb_stock_data.get_all_tickers()
+
+    if ticker_input.upper() not in [ticker.upper() for ticker in existing_tickers]:
+        return jsonify({"Message": "Invalid ticker"}), 400
+
+    stock_data = hcnb_stock_data.get_stock_data(ticker_input, False)
+    return jsonify(stock_data.__dict__), 200

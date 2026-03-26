@@ -5,6 +5,7 @@ import Screener from './pages/Screener'
 import Portfolio from './pages/Portfolio'
 import DividendPortfolio from './pages/DividendPortfolio'
 import UpdateData from './pages/UpdateData'
+import StockDetails from './pages/StockDetails'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Screener />} />
           <Route path="/screener" element={<Screener />} />
+          <Route path="/stocks/:ticker" element={<StockDetails />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/dividend-portfolio" element={<DividendPortfolio />} />
           <Route path="/update-data" element={<UpdateData />} />

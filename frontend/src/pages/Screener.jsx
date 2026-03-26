@@ -1,9 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../styles/Screener.css'
 import InfoBox from '../components/InfoBox'
 
+const SCREENER_LIST_ENDPOINTS = ['/api/screener/screener_list', '/api/screener_list']
+
 function Screener() {
-  const screenerListEndpoints = ['/api/screener/screener_list', '/api/screener_list']
+  const navigate = useNavigate()
+  const [searchInput, setSearchInput] = useState('')
   const [tickerInput, setTickerInput] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [requestMessage, setRequestMessage] = useState('')
@@ -18,7 +22,8 @@ function Screener() {
     { key: 'ps', label: 'PS' },
     { key: 'peg', label: 'PEG' },
     { key: 'revenue_growth', label: 'Revenue Growth' },
-    { key: 'earnings_growth', label: 'Earnings Growth' }
+    { key: 'earnings_growth', label: 'Earnings Growth' },
+    { key: 'rsi_14', label: 'RSI 14' }
   ]
 
   const getComparableValue = (stock, key) => {
@@ -72,6 +77,18 @@ function Screener() {
     })
   }, [stocks, sortConfig])
 
+  const filteredStocks = useMemo(() => {
+    if (!searchInput.trim()) {
+      return sortedStocks
+    }
+
+    const searchTerm = searchInput.trim().toLowerCase()
+    return sortedStocks.filter((stock) => {
+      const ticker = String(stock?.ticker || '').toLowerCase()
+      return ticker.includes(searchTerm)
+    })
+  }, [sortedStocks, searchInput])
+
   const formatValue = (value) => {
     if (value === null || value === undefined || value === '') {
       return '-'
@@ -84,23 +101,11 @@ function Screener() {
     return value
   }
 
-  const formatPercent = (value) => {
-    if (value === null || value === undefined || value === '') {
-      return '-'
-    }
-
-    if (typeof value === 'number') {
-      return `${(value * 100).toFixed(2)}%`
-    }
-
-    return value
-  }
-
-  const fetchScreenerList = async ({ showError = false } = {}) => {
+  const fetchScreenerList = useCallback(async ({ showError = false } = {}) => {
     try {
       let lastError = null
 
-      for (const endpoint of screenerListEndpoints) {
+      for (const endpoint of SCREENER_LIST_ENDPOINTS) {
         const response = await fetch(endpoint)
         const data = await response.json().catch(() => null)
 
@@ -127,7 +132,7 @@ function Screener() {
         setRequestMessage(error.message || 'Failed to load screener data.')
       }
     }
-  }
+  }, [])
 
   const handleAddStock = async () => {
     if (isSubmitting) {
@@ -177,7 +182,7 @@ function Screener() {
 
   useEffect(() => {
     fetchScreenerList({ showError: true })
-  }, [])
+  }, [fetchScreenerList])
 
   useEffect(() => {
     if (!requestMessage) {
@@ -213,15 +218,36 @@ function Screener() {
     return sortConfig.direction === 'asc' ? '↑' : '↓'
   }
 
+  const handleOpenStockDetails = (stock) => {
+    const ticker = String(stock?.ticker || '').trim().toUpperCase()
+
+    if (!ticker) {
+      return
+    }
+
+    navigate(`/stocks/${encodeURIComponent(ticker)}`, {
+      state: { stock }
+    })
+  }
+
   return (
     <div className="screener-container">
       <div className="add-stock-controls">
         <input
           type="text"
+          className="search-input"
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
+          placeholder="Search table..."
+          maxLength={50}
+        />
+        <div className="controls-separator"></div>
+        <input
+          type="text"
           className="ticker-input"
           value={tickerInput}
           onChange={(event) => setTickerInput(event.target.value)}
-          placeholder="Enter ticker (e.g. AAPL)"
+          placeholder="Add ticker (e.g. AAPL)"
           maxLength={10}
         />
         <button
@@ -253,8 +279,21 @@ function Screener() {
             </tr>
           </thead>
           <tbody>
-            {sortedStocks.map((stock) => (
-              <tr key={stock.ticker}>
+            {filteredStocks.map((stock) => (
+              <tr
+                key={stock.ticker}
+                className="clickable-stock-row"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleOpenStockDetails(stock)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    handleOpenStockDetails(stock)
+                  }
+                }}
+                aria-label={`Open details for ${stock.ticker}`}
+              >
                 <td className="symbol">{stock.ticker}</td>
                 <td>{formatValue(stock.pe)}</td>
                 <td>{formatValue(stock.forward_pe)}</td>
@@ -262,6 +301,7 @@ function Screener() {
                 <td>{formatValue(stock.peg)}</td>
                 <td>{stock.revenue_growth}</td>
                 <td>{stock.earnings_growth}</td>
+                <td>{formatValue(stock.rsi_14)}</td>
               </tr>
             ))}
           </tbody>

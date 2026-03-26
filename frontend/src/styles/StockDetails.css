@@ -1,0 +1,381 @@
+.stock-details-page {
+  padding: 0.5rem;
+  display: grid;
+  gap: 1rem;
+  min-width: 1900px;
+}
+
+.stock-details-header {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.stock-details-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #111827;
+}
+
+.stock-details-header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stock-details-header-ticker {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.stock-details-back-link {
+  color: #334155;
+  font-weight: 600;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.stock-details-back-link:hover {
+  text-decoration: underline;
+}
+
+
+.stock-details-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.9rem;
+  font-size: 0.9rem;
+  color: #1f2937;
+}
+
+.stock-details-tables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.1em;
+}
+
+.stock-details-table-wrap {
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.stock-details-table-wrap h3 {
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+  color: #1e293b;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.stock-details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stock-details-table th,
+.stock-details-table td {
+  text-align: left;
+  padding: 0.3rem 0.2rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.8rem;
+  color: #0f172a;
+  vertical-align: top;
+}
+
+.stock-details-table th {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #475569;
+}
+
+.stock-details-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.stock-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.stock-details-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0.7rem 0.8rem;
+  background-color: #f8fafc;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.stock-details-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stock-details-value {
+  font-size: 0.8rem;
+  color: #111827;
+  word-break: break-word;
+}
+
+.stock-details-status {
+  margin: 0;
+  color: #334155;
+}
+
+.stock-details-error-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.stock-details-error {
+  color: #b91c1c;
+}
+
+.stock-details-retry-btn {
+  border: 1px solid #d1d5db;
+  background-color: #f8fafc;
+  color: #111827;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+}
+
+.stock-details-retry-btn:hover {
+  background-color: #e2e8f0;
+}
+
+.stock-details-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.stock-details-charts-section {
+  display: grid;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.stock-details-charts-title {
+  margin: 0;
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.stock-details-chart-wrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.85rem;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.stock-details-chart-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.stock-details-chart-main {
+  min-width: 0;
+}
+
+.stock-details-chart-cagr-panel {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+
+.stock-details-cagr-title {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #334155;
+}
+
+.stock-details-cagr-wrap {
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  padding: 0.35rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stock-details-cagr-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stock-details-cagr-item:nth-child(odd) {
+  background: #fcfdff;
+}
+
+.stock-details-cagr-item:last-child {
+  border-bottom: 0;
+}
+
+.stock-details-cagr-item--total {
+  background-color: #f1f5f9;
+}
+
+.stock-details-cagr-item--total .stock-details-cagr-label,
+.stock-details-cagr-item--total .stock-details-cagr-value {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stock-details-cagr-label {
+  font-size: 0.78rem;
+  color: #334155;
+}
+
+.stock-details-cagr-value {
+  font-size: 0.8rem;
+  color: #0f172a;
+  font-weight: 600;
+  text-align: right;
+}
+
+.stock-details-chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.stock-details-chart-toggle {
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.stock-details-chart-toggle-btn {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+  background: #f8fafc;
+  color: #374151;
+  border: none;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.stock-details-chart-toggle-btn:not(:last-child) {
+  border-right: 1px solid #d1d5db;
+}
+
+.stock-details-chart-toggle-btn.active {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.stock-details-chart-metric-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.stock-details-chart-metric-btn {
+  padding: 0.34rem 0.62rem;
+  font-size: 0.75rem;
+  background: #f1f5f9;
+  color: #374151;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.stock-details-chart-metric-btn.active {
+  background: #3b82f6;
+  color: #fff;
+  border-color: #3b82f6;
+}
+
+.stock-details-chart-metric-btn:hover:not(.active),
+.stock-details-chart-toggle-btn:hover:not(.active) {
+  background: #e2e8f0;
+}
+
+.stock-details-forecast-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 0.1rem;
+}
+
+.stock-details-forecast-control {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.45rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.stock-details-forecast-control span {
+  font-size: 0.72rem;
+  color: #475569;
+}
+
+.stock-details-forecast-control input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 0.4rem 0.45rem;
+  font-size: 0.82rem;
+  color: #0f172a;
+  background-color: #fff;
+}
+
+.stock-details-forecast-control input:focus {
+  outline: 2px solid #60a5fa;
+  outline-offset: 1px;
+}
+
+@media (max-width: 1100px) {
+  .stock-details-chart-content {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-details-forecast-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .stock-details-page {
+    padding: 1rem;
+    min-width: auto;
+  }
+
+  .stock-details-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .stock-details-tables {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-details-charts-row {
+    grid-template-columns: 1fr;
+  }
+}
