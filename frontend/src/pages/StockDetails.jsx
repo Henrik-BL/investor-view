@@ -11,7 +11,7 @@ const fieldLabels = {
   pe: 'P/E',
   forward_pe: 'Forward P/E',
   ps: 'P/S',
-  pb: 'P/S',
+  pb: 'P/B',
   peg: 'PEG',
   revenue_growth: 'Revenue Growth',
   earnings_growth: 'Earnings Growth',
@@ -183,6 +183,10 @@ const cagrMetricOptions = [
   { key: 'diluted_outstanding_shares', label: 'Diluted Shares CAGR' },
 ]
 
+const detailTabOptions = [
+  { key: 'analysis', label: 'Analysis' },
+]
+
 const cagrMetricLabelsByKey = cagrMetricOptions.reduce((accumulator, item) => {
   accumulator[item.key] = item.label
   return accumulator
@@ -306,6 +310,7 @@ function StockDetails() {
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [stockDetails, setStockDetails] = useState(null)
+  const [activeDetailTab, setActiveDetailTab] = useState(detailTabOptions[0].key)
   const [reportType, setReportType] = useState('quarterly')
   const [reportMetric, setReportMetric] = useState('revenue')
   const [forecastQuarterInput, setForecastQuarterInput] = useState('5')
@@ -697,135 +702,168 @@ function StockDetails() {
         </section>
       )}
 
-      {!isLoading && !errorMessage && <div className="stock-details-charts-row">
-      <section className="stock-details-charts-section" aria-label="Reports chart">
-        <h2 className="stock-details-charts-title">Financial Reports</h2>
-        <div className="stock-details-chart-controls">
-          <div className="stock-details-chart-toggle">
-            <button
-              className={`stock-details-chart-toggle-btn${reportType === 'quarterly' ? ' active' : ''}`}
-              onClick={() => setReportType('quarterly')}
-            >
-              Quarterly
-            </button>
-            <button
-              className={`stock-details-chart-toggle-btn${reportType === 'yearly' ? ' active' : ''}`}
-              onClick={() => setReportType('yearly')}
-            >
-              Yearly
-            </button>
-          </div>
-          <div className="stock-details-chart-metric-select">
-            {reportMetricOptions.map((opt) => (
+      {!isLoading && !errorMessage && (
+        <section className="stock-details-tabs-section" aria-label="Stock analysis">
+          <div className="stock-details-tabs" role="tablist" aria-label="Stock analysis views">
+            {detailTabOptions.map((tab) => (
               <button
-                key={opt.key}
-                className={`stock-details-chart-metric-btn${reportMetric === opt.key ? ' active' : ''}`}
-                onClick={() => setReportMetric(opt.key)}
+                key={tab.key}
+                type="button"
+                role="tab"
+                id={`stock-details-tab-${tab.key}`}
+                aria-selected={activeDetailTab === tab.key}
+                aria-controls={`stock-details-panel-${tab.key}`}
+                className={`stock-details-tab-btn${activeDetailTab === tab.key ? ' active' : ''}`}
+                onClick={() => setActiveDetailTab(tab.key)}
               >
-                {opt.label}
+                {tab.label}
               </button>
             ))}
           </div>
-        </div>
-        <div className="stock-details-chart-wrap">
-          <div className="stock-details-chart-content">
-            <div className="stock-details-chart-main">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={reportChartData} margin={{ top: 8, right: 24, left: 16, bottom: 8 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#475569' }} />
-                  <YAxis
-                    tickFormatter={(v) => formatReportAxisTick(v, reportMetric)}
-                    tick={{ fontSize: 11, fill: '#475569' }}
-                    width={60}
-                  />
-                  <Tooltip
-                    formatter={(value) => [
-                      formatReportValue(value, reportMetric),
-                      reportMetricOptions.find((o) => o.key === reportMetric)?.label,
-                    ]}
-                  />
-                  <Bar dataKey="value" fill="#3b82f6" radius={[3, 3, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
 
-            <div className="stock-details-chart-cagr-panel" aria-label="CAGR summary">
-              <div className="stock-details-cagr-wrap">
-                <div className="stock-details-cagr-item">
-                  <span className="stock-details-cagr-label">{selectedCagr.label}</span>
-                  <span className="stock-details-cagr-value">{formatCagrValue(selectedCagr.value)}</span>
-                </div>
+          <div
+            className="stock-details-tab-panel"
+            role="tabpanel"
+            id={`stock-details-panel-${activeDetailTab}`}
+            aria-labelledby={`stock-details-tab-${activeDetailTab}`}
+          >
+            {activeDetailTab === 'analysis' && (
+              <div className="stock-details-charts-row">
+                <section className="stock-details-charts-section" aria-label="Reports chart">
+                  <h2 className="stock-details-charts-title">Financial Reports</h2>
+                  <div className="stock-details-chart-controls">
+                    <div className="stock-details-chart-toggle">
+                      <button
+                        type="button"
+                        className={`stock-details-chart-toggle-btn${reportType === 'quarterly' ? ' active' : ''}`}
+                        onClick={() => setReportType('quarterly')}
+                      >
+                        Quarterly
+                      </button>
+                      <button
+                        type="button"
+                        className={`stock-details-chart-toggle-btn${reportType === 'yearly' ? ' active' : ''}`}
+                        onClick={() => setReportType('yearly')}
+                      >
+                        Yearly
+                      </button>
+                    </div>
+                    <div className="stock-details-chart-metric-select">
+                      {reportMetricOptions.map((opt) => (
+                        <button
+                          key={opt.key}
+                          type="button"
+                          className={`stock-details-chart-metric-btn${reportMetric === opt.key ? ' active' : ''}`}
+                          onClick={() => setReportMetric(opt.key)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="stock-details-chart-wrap">
+                    <div className="stock-details-chart-content">
+                      <div className="stock-details-chart-main">
+                        <ResponsiveContainer width="100%" height={300}>
+                          <BarChart data={reportChartData} margin={{ top: 8, right: 24, left: 16, bottom: 8 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                            <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#475569' }} />
+                            <YAxis
+                              tickFormatter={(v) => formatReportAxisTick(v, reportMetric)}
+                              tick={{ fontSize: 11, fill: '#475569' }}
+                              width={60}
+                            />
+                            <Tooltip
+                              formatter={(value) => [
+                                formatReportValue(value, reportMetric),
+                                reportMetricOptions.find((o) => o.key === reportMetric)?.label,
+                              ]}
+                            />
+                            <Bar dataKey="value" fill="#3b82f6" radius={[3, 3, 0, 0]} />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+
+                      <div className="stock-details-chart-cagr-panel" aria-label="CAGR summary">
+                        <div className="stock-details-cagr-wrap">
+                          <div className="stock-details-cagr-item">
+                            <span className="stock-details-cagr-label">{selectedCagr.label}</span>
+                            <span className="stock-details-cagr-value">{formatCagrValue(selectedCagr.value)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="stock-details-charts-section" aria-label="Quarterly forecast">
+                  <h2 className="stock-details-charts-title">Quarterly Forecast</h2>
+                  <div className="stock-details-forecast-controls">
+                    <label className="stock-details-forecast-control">
+                      <span>Quarters</span>
+                      <input
+                        type="number"
+                        min="1"
+                        step="1"
+                        value={forecastQuarterInput}
+                        onChange={(event) => setForecastQuarterInput(event.target.value)}
+                      />
+                    </label>
+                    <label className="stock-details-forecast-control">
+                      <span>Revenue CAGR (%)</span>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={forecastCagrInput}
+                        onChange={(event) => setForecastCagrInput(event.target.value)}
+                      />
+                    </label>
+                    <label className="stock-details-forecast-control">
+                      <span>Net Margin (%)</span>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={forecastMarginInput}
+                        onChange={(event) => setForecastMarginInput(event.target.value)}
+                      />
+                    </label>
+                  </div>
+                  {revenueValuation ? (
+                    <div className="stock-details-cagr-wrap">
+                      <div className="stock-details-cagr-item">
+                        <span className="stock-details-cagr-label">Forecasted Revenue (+{revenueValuation.quarters}Q)</span>
+                        <span className="stock-details-cagr-value">{formatReportValue(revenueValuation.forecastRevenue, 'revenue')}</span>
+                      </div>
+                      <div className="stock-details-cagr-item">
+                        <span className="stock-details-cagr-label">Forecasted Annual Revenue (×4)</span>
+                        <span className="stock-details-cagr-value">{formatReportValue(revenueValuation.forecastAnnualRevenue, 'revenue')}</span>
+                      </div>
+                      <div className="stock-details-cagr-item">
+                        <span className="stock-details-cagr-label">Forecasted Net Margin</span>
+                        <span className="stock-details-cagr-value">{formatCagrValue(revenueValuation.forecastMargin)}</span>
+                      </div>
+                      <div className="stock-details-cagr-item">
+                        <span className="stock-details-cagr-label">Forecasted Annual Net Income</span>
+                        <span className="stock-details-cagr-value">{formatReportValue(revenueValuation.forecastAnnualNetIncome, 'net_income')}</span>
+                      </div>
+                      <div className="stock-details-cagr-item stock-details-cagr-item--total">
+                        <span className="stock-details-cagr-label">Forecasted P/S</span>
+                        <span className="stock-details-cagr-value">{revenueValuation.forecastedPs !== null ? revenueValuation.forecastedPs.toFixed(2) : '-'}</span>
+                      </div>
+                      <div className="stock-details-cagr-item stock-details-cagr-item--total">
+                        <span className="stock-details-cagr-label">Forecasted P/E</span>
+                        <span className="stock-details-cagr-value">{revenueValuation.forecastedPe !== null ? revenueValuation.forecastedPe.toFixed(2) : '-'}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="stock-details-status">No data available</p>
+                  )}
+                </section>
               </div>
-            </div>
+            )}
           </div>
-        </div>
-      </section>
-
-      <section className="stock-details-charts-section" aria-label="Additional chart">
-        <h2 className="stock-details-charts-title">Quartertly forecast</h2>
-        <div className="stock-details-forecast-controls">
-          <label className="stock-details-forecast-control">
-            <span>Quarters</span>
-            <input
-              type="number"
-              min="1"
-              step="1"
-              value={forecastQuarterInput}
-              onChange={(event) => setForecastQuarterInput(event.target.value)}
-            />
-          </label>
-          <label className="stock-details-forecast-control">
-            <span>Revenue CAGR (%)</span>
-            <input
-              type="number"
-              step="0.01"
-              value={forecastCagrInput}
-              onChange={(event) => setForecastCagrInput(event.target.value)}
-            />
-          </label>
-          <label className="stock-details-forecast-control">
-            <span>Net Margin (%)</span>
-            <input
-              type="number"
-              step="0.01"
-              value={forecastMarginInput}
-              onChange={(event) => setForecastMarginInput(event.target.value)}
-            />
-          </label>
-        </div>
-        {revenueValuation ? (
-          <div className="stock-details-cagr-wrap">
-            <div className="stock-details-cagr-item">
-              <span className="stock-details-cagr-label">Forecasted Revenue (+{revenueValuation.quarters}Q)</span>
-              <span className="stock-details-cagr-value">{formatReportValue(revenueValuation.forecastRevenue, 'revenue')}</span>
-            </div>
-            <div className="stock-details-cagr-item">
-              <span className="stock-details-cagr-label">Forecasted Annual Revenue (×4)</span>
-              <span className="stock-details-cagr-value">{formatReportValue(revenueValuation.forecastAnnualRevenue, 'revenue')}</span>
-            </div>
-            <div className="stock-details-cagr-item">
-              <span className="stock-details-cagr-label">Forecasted Net Margin</span>
-              <span className="stock-details-cagr-value">{formatCagrValue(revenueValuation.forecastMargin)}</span>
-            </div>
-            <div className="stock-details-cagr-item">
-              <span className="stock-details-cagr-label">Forecasted Annual Net Income</span>
-              <span className="stock-details-cagr-value">{formatReportValue(revenueValuation.forecastAnnualNetIncome, 'net_income')}</span>
-            </div>
-            <div className="stock-details-cagr-item stock-details-cagr-item--total">
-              <span className="stock-details-cagr-label">Forecasted P/S</span>
-              <span className="stock-details-cagr-value">{revenueValuation.forecastedPs !== null ? revenueValuation.forecastedPs.toFixed(2) : '-'}</span>
-            </div>
-            <div className="stock-details-cagr-item stock-details-cagr-item--total">
-              <span className="stock-details-cagr-label">Forecasted P/E</span>
-              <span className="stock-details-cagr-value">{revenueValuation.forecastedPe !== null ? revenueValuation.forecastedPe.toFixed(2) : '-'}</span>
-            </div>
-          </div>
-        ) : (
-          <p className="stock-details-status">No data available</p>
-        )}
-      </section>
-      </div>}
+        </section>
+      )}
 
 
     </div>

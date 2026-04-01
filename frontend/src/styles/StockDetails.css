@@ -2,7 +2,11 @@
   padding: 0.5rem;
   display: grid;
   gap: 1rem;
-  min-width: 1900px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: 0.94rem;
+  min-width: 0;
 }
 
 .stock-details-header {
@@ -50,7 +54,7 @@
 
 .stock-details-tables {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 0.1em;
 }
 
@@ -83,6 +87,7 @@
   font-size: 0.8rem;
   color: #0f172a;
   vertical-align: top;
+  overflow-wrap: anywhere;
 }
 
 .stock-details-table th {
@@ -98,7 +103,7 @@
 
 .stock-details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 0.75rem;
 }
 
@@ -155,14 +160,57 @@
 
 .stock-details-charts-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
   align-items: start;
+  min-width: 0;
+}
+
+.stock-details-tabs-section {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.stock-details-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.stock-details-tab-btn {
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.stock-details-tab-btn:hover:not(.active) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.stock-details-tab-btn.active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.stock-details-tab-panel {
+  min-width: 0;
 }
 
 .stock-details-charts-section {
   display: grid;
   gap: 0.5rem;
+  min-width: 0;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 0.8rem;
@@ -177,6 +225,8 @@
 }
 
 .stock-details-chart-wrap {
+  min-width: 0;
+  box-sizing: border-box;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   padding: 0.85rem;
@@ -186,7 +236,7 @@
 
 .stock-details-chart-content {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr) 220px;
   gap: 0.75rem;
   align-items: stretch;
 }
@@ -199,6 +249,7 @@
   display: grid;
   gap: 0.35rem;
   align-content: start;
+  min-width: 0;
 }
 
 .stock-details-cagr-title {
@@ -218,6 +269,8 @@
 .stock-details-cagr-item {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.55rem 0.75rem;
   border-bottom: 1px solid #e5e7eb;
@@ -244,6 +297,7 @@
 .stock-details-cagr-label {
   font-size: 0.78rem;
   color: #334155;
+  min-width: 0;
 }
 
 .stock-details-cagr-value {
@@ -251,6 +305,8 @@
   color: #0f172a;
   font-weight: 600;
   text-align: right;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .stock-details-chart-controls {
@@ -317,7 +373,7 @@
 
 .stock-details-forecast-controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 0.6rem;
   margin-bottom: 0.1rem;
 }
@@ -325,6 +381,7 @@
 .stock-details-forecast-control {
   display: grid;
   gap: 0.3rem;
+  min-width: 0;
   padding: 0.45rem;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -338,6 +395,9 @@
 
 .stock-details-forecast-control input {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   border: 1px solid #d1d5db;
   border-radius: 4px;
   padding: 0.4rem 0.45rem;
@@ -351,8 +411,14 @@
   outline-offset: 1px;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
   .stock-details-chart-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1100px) {
+  .stock-details-charts-row {
     grid-template-columns: 1fr;
   }
 
@@ -363,7 +429,7 @@
 
 @media (max-width: 640px) {
   .stock-details-page {
-    padding: 1rem;
+    padding: 0.75rem;
     min-width: auto;
   }
 

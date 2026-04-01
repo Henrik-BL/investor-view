@@ -13,10 +13,6 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
 app.register_blueprint(screener_bp)
 
-@app.route("/api/hello")
-def hello():
-    return jsonify(message="Hello from Flask")
-
 @app.route("/api/health")
 def health_check():
     return jsonify(status="ok"), 200
