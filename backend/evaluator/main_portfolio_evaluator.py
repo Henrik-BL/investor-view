@@ -74,9 +74,9 @@ class MainPortfolioEvaluator:
         self.result_list.append(["Last quarter margin", stock_data.last_quarter_margin, result])
 
     def evaluate_margin_yoy_change(self, stock_data: StockData):
-        result = self._get_heavy_points(3, 13, stock_data.margin_difference_yoy)
+        result = self._get_heavy_points(5, 15, stock_data.margin_difference_yoy)
         if result is None:
             self.none_count += 1
         else:
             self.points += result
-        self.result_list.append(["Margin yoy change", stock_data.last_quarter_margin, result])
+        self.result_list.append(["Margin yoy change", stock_data.margin_difference_yoy, result])

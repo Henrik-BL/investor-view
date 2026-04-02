@@ -12,7 +12,7 @@ ticker_list = ["PLTR", "AAPL", "MSFT", "GOOGL", "AMZN"]
 
 evaluate_list = []
 
-for item in all_tickers:
+for item in ticker_list:
     stock_data = hcnb_stock_data.get_stock_data(item, False)
     stock_score = main_portfolio_evaluator.evaluate(stock_data)
     result_list = list(stock_score)
