@@ -1,0 +1,10 @@
+{
+  "holdings": [
+    {
+      "ticker": "GOOG",
+      "quantity": 1,
+      "account": "Avanza",
+      "payouts": 4
+    }
+  ]
+}

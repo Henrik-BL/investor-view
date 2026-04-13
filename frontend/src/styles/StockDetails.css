@@ -14,6 +14,13 @@
   gap: 0.5rem;
 }
 
+.stock-details-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
 .stock-details-header h1 {
   margin: 0;
   font-size: 1.5rem;
@@ -42,6 +49,37 @@
 
 .stock-details-back-link:hover {
   text-decoration: underline;
+}
+
+.stock-details-update-btn {
+  border: 1px solid #2563eb;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  border-radius: 6px;
+  margin: 2px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.25);
+  transition: background 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.stock-details-update-btn:hover {
+  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.28);
+}
+
+.stock-details-update-btn:active {
+  transform: translateY(1px);
+}
+
+.stock-details-update-btn:disabled {
+  background: #cbd5e1;
+  border-color: #cbd5e1;
+  color: #475569;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 

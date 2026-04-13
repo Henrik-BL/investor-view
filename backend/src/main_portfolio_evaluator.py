@@ -16,24 +16,18 @@ class MainPortfolioEvaluator:
         self.evaluate_earnings_growth(stock_data)
         self.evaluate_gross_margins(stock_data)
         self.evaluate_last_quarter_margin(stock_data)
-
         self.evaluate_margin_yoy_change(stock_data)
-
-
         return self.result_list, self.points
 
     @staticmethod
     def _get_heavy_points(low, high, num):
         if num is None or high is None or low is None:
             return None
-
         if num < low:
             return 0
 
         if num > high:
             return 2.0
-
-        # Starts at 1.0 at 'low', adds 0.1 for each unit
         return round(1.0 + (num - low) * 0.1, 1)
 
 

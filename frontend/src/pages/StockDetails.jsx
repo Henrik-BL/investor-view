@@ -316,6 +316,38 @@ function StockDetails() {
   const [forecastQuarterInput, setForecastQuarterInput] = useState('5')
   const [forecastCagrInput, setForecastCagrInput] = useState('')
   const [forecastMarginInput, setForecastMarginInput] = useState('')
+  const [isUpdatingTicker, setIsUpdatingTicker] = useState(false)
+
+  const handleUpdateTicker = useCallback(async () => {
+    if (!selectedTicker || isUpdatingTicker) {
+      return
+    }
+
+    try {
+      setIsUpdatingTicker(true)
+      const response = await fetch('/api/screener/update_ticker', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ticker: selectedTicker })
+      })
+
+      const data = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        const apiErrorMessage = data?.Message || data?.error || `Failed with status ${response.status}.`
+        throw new Error(apiErrorMessage)
+      }
+
+      window.location.reload()
+    } catch (error) {
+      console.error('Failed to update ticker:', error)
+      setErrorMessage(error.message || 'Failed to update ticker.')
+    } finally {
+      setIsUpdatingTicker(false)
+    }
+  }, [selectedTicker, isUpdatingTicker])
 
   const fetchStockDetails = useCallback(async () => {
     if (!selectedTicker) {
@@ -538,7 +570,18 @@ function StockDetails() {
   return (
     <div className="stock-details-page">
       <div className="stock-details-header">
-        <Link to="/screener" className="stock-details-back-link">← Back to Screener</Link>
+        <div className="stock-details-header-actions">
+          <Link to="/screener" className="stock-details-back-link">← Back to Screener</Link>
+          <button
+            type="button"
+            className="stock-details-update-btn"
+            onClick={handleUpdateTicker}
+            disabled={!selectedTicker || isUpdatingTicker}
+            aria-busy={isUpdatingTicker}
+          >
+            {isUpdatingTicker ? 'Updating...' : 'Update'}
+          </button>
+        </div>
         <h1 className="stock-details-header-title">
           <span>{companyDisplayName}</span>
           {selectedTicker && <span className="stock-details-header-ticker">({selectedTicker})</span>}

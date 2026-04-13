@@ -36,6 +36,7 @@ def screener_list():
         screener_items.append({
             "ticker": stock_data.ticker,
             "pe": stock_data.pe,
+            "last_quarter_pe": stock_data.last_quarter_pe,
             "forward_pe": stock_data.forward_pe,
             "ps": stock_data.ps,
             "peg": stock_data.peg,
@@ -46,11 +47,21 @@ def screener_list():
 
     return jsonify({ "screener_list": screener_items })
 
-@screener_bp.route('/update_data', methods=['GET'])
+@screener_bp.route('/update_data', methods=['GET', 'POST'])
 def update_data():
+    requested_tickers = None
+
+    if request.method == 'POST':
+        data = request.get_json(silent=True) or {}
+        requested_tickers = data.get('tickers')
+    else:
+        tickers_param = request.args.get('tickers', '').strip()
+        if tickers_param:
+            requested_tickers = [t.strip() for t in tickers_param.split(',') if t.strip()]
+
     def event_stream():
-        hcnb_stock_data.update_limit_hours = 1
-        tickers = hcnb_stock_data.get_all_tickers()
+        hcnb_stock_data.update_limit_hours = 0
+        tickers = requested_tickers if requested_tickers else hcnb_stock_data.get_all_tickers()
         total = len(tickers)
 
         yield f"data: {json.dumps({'status': 'started', 'total': total})}\n\n"
@@ -88,7 +99,26 @@ def update_data():
         },
     )
 
+@screener_bp.route('/update_ticker', methods=['POST'])
+def update_ticker():
+    data = request.get_json()
+    ticker_input = data.get('ticker', '').strip() if data else ''
 
+    if not ticker_input:
+        return jsonify({"Message": "No ticker provided"}), 400
+
+    existing_tickers = hcnb_stock_data.get_all_tickers()
+
+    if ticker_input.upper() not in [ticker.upper() for ticker in existing_tickers]:
+        return jsonify({"Message": "Invalid ticker"}), 400
+
+    try:
+        hcnb_stock_data.update_limit_hours = 0
+        hcnb_stock_data.get_stock_data(ticker_input, True)
+    except Exception as exc:
+        return jsonify({"Message": f"Failed to update ticker: {str(exc)}"}), 500
+
+    return jsonify({"Message": f"{ticker_input.upper()} updated successfully"}), 200
 
 @screener_bp.route('/fetch_stock_data', methods=['GET'])
 def fetch_stock_data():

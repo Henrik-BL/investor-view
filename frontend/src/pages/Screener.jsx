@@ -18,6 +18,7 @@ function Screener() {
   const columns = [
     { key: 'ticker', label: 'Ticker' },
     { key: 'pe', label: 'PE' },
+    { key: 'last_quarter_pe', label: 'Last Quarter PE' },
     { key: 'forward_pe', label: 'Forward PE' },
     { key: 'ps', label: 'PS' },
     { key: 'peg', label: 'PEG' },
@@ -26,8 +27,25 @@ function Screener() {
     { key: 'rsi_14', label: 'RSI 14' }
   ]
 
+  const getColumnValue = (stock, key) => {
+    if (!stock || typeof stock !== 'object') {
+      return undefined
+    }
+
+    if (key === 'last_quarter_pe') {
+      return (
+        stock.last_quarter_pe ??
+        stock.lastQuarterPe ??
+        stock.lastQuarterPE ??
+        stock?.stock_data?.last_quarter_pe
+      )
+    }
+
+    return stock[key]
+  }
+
   const getComparableValue = (stock, key) => {
-    const value = stock?.[key]
+    const value = getColumnValue(stock, key)
 
     if (value === null || value === undefined || value === '') {
       return null
@@ -294,14 +312,11 @@ function Screener() {
                 }}
                 aria-label={`Open details for ${stock.ticker}`}
               >
-                <td className="symbol">{stock.ticker}</td>
-                <td>{formatValue(stock.pe)}</td>
-                <td>{formatValue(stock.forward_pe)}</td>
-                <td>{formatValue(stock.ps)}</td>
-                <td>{formatValue(stock.peg)}</td>
-                <td>{stock.revenue_growth}</td>
-                <td>{stock.earnings_growth}</td>
-                <td>{formatValue(stock.rsi_14)}</td>
+                {columns.map((column) => (
+                  <td key={`${stock.ticker}-${column.key}`} className={column.key === 'ticker' ? 'symbol' : ''}>
+                    {formatValue(getColumnValue(stock, column.key))}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>

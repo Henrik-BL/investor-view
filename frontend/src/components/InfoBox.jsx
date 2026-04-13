@@ -1,6 +1,19 @@
+import { useEffect } from 'react'
 import '../styles/InfoBox.css'
 
 function InfoBox({ message, variant = 'info', isVisible, onClose, duration = 5000 }) {
+  useEffect(() => {
+    if (!isVisible || !message || typeof onClose !== 'function') {
+      return undefined
+    }
+
+    const timer = setTimeout(() => {
+      onClose()
+    }, duration)
+
+    return () => clearTimeout(timer)
+  }, [duration, isVisible, message, onClose])
+
   if (!isVisible || !message) {
     return null
   }

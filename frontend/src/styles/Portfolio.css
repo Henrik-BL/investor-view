@@ -1,0 +1,277 @@
+.portfolio-page {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.portfolio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.portfolio-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.portfolio-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.portfolio-refresh-btn {
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.portfolio-update-btn {
+  border: 1px solid #0f766e;
+  background: #0f766e;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.portfolio-update-btn:hover {
+  background: #0b5f59;
+}
+
+.portfolio-refresh-btn:hover {
+  background: #e2e8f0;
+}
+
+.portfolio-refresh-btn:disabled {
+  background: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.portfolio-update-btn:disabled {
+  background: #99d4cf;
+  border-color: #99d4cf;
+  color: #effaf8;
+  cursor: not-allowed;
+}
+
+.portfolio-error-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.portfolio-error {
+  margin: 0;
+  color: #b91c1c;
+}
+
+.portfolio-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.portfolio-summary-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.portfolio-summary-label {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.portfolio-summary-card strong {
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.portfolio-content-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 15%);
+  gap: 1rem;
+  align-items: start;
+}
+
+.portfolio-main-content {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.portfolio-todo-panel {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.75rem;
+  position: sticky;
+  top: 0.75rem;
+}
+
+.portfolio-todo-panel h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #1e293b;
+}
+
+.portfolio-todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.portfolio-check-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.45rem 0.5rem;
+  color: #0f172a;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+.portfolio-check-item--warning {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.portfolio-check-item--signal {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e3a8a;
+}
+
+.portfolio-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 0.9rem;
+}
+
+.portfolio-section {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.portfolio-section h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #1e293b;
+}
+
+.portfolio-table-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: auto;
+  background: #ffffff;
+}
+
+.portfolio-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.portfolio-table th,
+.portfolio-table td {
+  text-align: left;
+  padding: 0.62rem 0.7rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.85rem;
+  color: #0f172a;
+}
+
+.portfolio-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #334155;
+  position: sticky;
+  top: 0;
+}
+
+.portfolio-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.portfolio-table tr.portfolio-allocation-warning td {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.portfolio-symbol {
+  font-weight: 700;
+}
+
+.portfolio-points-wrap {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.portfolio-points-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0;
+  padding: 0.18rem 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.portfolio-points-badge--neutral {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.portfolio-points-badge--buy {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.portfolio-points-badge--sell {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+@media (max-width: 720px) {
+  .portfolio-page {
+    padding: 0.85rem;
+  }
+
+  .portfolio-content-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-todo-panel {
+    position: static;
+  }
+
+  .portfolio-table {
+    min-width: 640px;
+  }
+}

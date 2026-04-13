@@ -1,0 +1,154 @@
+.dividend-page {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.dividend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dividend-header h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  color: #0f172a;
+}
+
+.dividend-header p {
+  margin: 0.25rem 0 0;
+  color: #334155;
+}
+
+.dividend-last-updated {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: #475569;
+}
+
+.dividend-error-wrap {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #7f1d1d;
+  border-radius: 10px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dividend-error-wrap p {
+  margin: 0;
+}
+
+.dividend-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.7rem;
+}
+
+.dividend-summary-card {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  padding: 0.85rem;
+  display: grid;
+  gap: 0.2rem;
+  box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
+}
+
+.dividend-summary-card span {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.dividend-summary-card strong {
+  color: #0f172a;
+  font-size: 1.1rem;
+}
+
+.dividend-summary-subvalue {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 0.1rem;
+  color: #475569;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.dividend-summary-subvalue span {
+  letter-spacing: 0.03em;
+}
+
+.dividend-summary-subvalue b {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.dividend-panel {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  padding: 0.9rem;
+}
+
+.dividend-panel h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.05rem;
+}
+
+.dividend-table-wrap {
+  overflow: auto;
+  max-height: 560px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.dividend-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.dividend-table th,
+.dividend-table td {
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.58rem 0.65rem;
+  font-size: 0.82rem;
+  color: #0f172a;
+}
+
+.dividend-table th {
+  background: #f8fafc;
+  color: #334155;
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+}
+
+.dividend-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.dividend-symbol {
+  font-weight: 700;
+}
+
+@media (max-width: 680px) {
+  .dividend-page {
+    padding: 1rem;
+  }
+
+  .dividend-error-wrap {
+    align-items: flex-start;
+  }
+}

@@ -1,6 +1,6 @@
 from hcnb_stock_data.hcnb_stock_data import HcnbStockData
 
-from backend.evaluator.main_portfolio_evaluator import MainPortfolioEvaluator
+from backend.src.main_portfolio_evaluator import MainPortfolioEvaluator
 
 main_portfolio_evaluator = MainPortfolioEvaluator()
 
@@ -25,5 +25,3 @@ evaluate_list.sort(key=lambda x: x[1], reverse=True)
 for item in evaluate_list:
     print(item)
 
-
-print("d")
