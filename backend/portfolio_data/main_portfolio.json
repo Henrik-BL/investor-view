@@ -2,8 +2,33 @@
   "holdings": [
     {
       "ticker": "PLEJD.ST",
-      "quantity": 1,
+      "quantity": 778,
       "account": "Avanza"
+    },
+    {
+      "ticker": "APP",
+      "quantity": 68,
+      "account": "Avanza"
+    },
+    {
+      "ticker": "PLTR",
+      "quantity": 419,
+      "account": "Avanza"
+    },
+    {
+      "ticker": "MU",
+      "quantity": 44,
+      "account": "Avanza"
+    },
+    {
+      "ticker": "PLEJD.ST",
+      "quantity": 32,
+      "account": "Montrose"
+    },
+    {
+      "ticker": "PLTR",
+      "quantity": 14,
+      "account": "Montrose"
     }
   ]
 }

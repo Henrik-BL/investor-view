@@ -33,6 +33,24 @@ set FLASK_ENV=development   # or export FLASK_ENV=development
 flask run
 ```
 
+### Docker and Kubernetes
+
+Use the root deployment script to fetch the latest repo code, build Docker images, and deploy to a local Kubernetes cluster:
+
+```powershell
+.\deploy-local.ps1
+```
+
+If your backend depends on a locally-built `hcnb_stock_data` repository, pass its path:
+
+```powershell
+.\deploy-local.ps1 -LocalHcnbStockDataPath "C:\repos\hcnb-stock-data"
+```
+
+This will build the package into a wheel and include it in the backend Docker image.
+
+The frontend will be exposed on `http://localhost:30080` and the backend is available internally through the frontend proxy at `/api`.
+
 ### Combined scripts (root)
 
 The root `package.json` provides convenience scripts:

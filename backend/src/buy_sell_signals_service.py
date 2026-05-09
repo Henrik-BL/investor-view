@@ -31,10 +31,10 @@ class BuySellSignalsService:
         if self.fear_greed_data < 25:
             self.buy_points += 2
             self.points_calculated.append(["Fear & Greed Index Buy 2", self.fear_greed_data])
-        elif 25 <= self.fear_greed_data <= 50:
+        elif 25 <= self.fear_greed_data <= 45:
             self.buy_points += 1
             self.points_calculated.append(["Fear & Greed Index Buy 1", self.fear_greed_data])
-        elif 50 <= self.fear_greed_data <= 75:
+        elif 55 <= self.fear_greed_data <= 75:
             self.sell_points += 1
             self.points_calculated.append(["Fear & Greed Index Sell 1", self.fear_greed_data])
         elif 75 <= self.fear_greed_data:
@@ -72,13 +72,3 @@ class BuySellSignalsService:
         else:
             label = "SMA 225 diff neutral"
         self.points_calculated.append([label, diff])
-
-
-# hcnb_stock_data_2 = HcnbStockData()
-#
-# stock_data_pltr = hcnb_stock_data_2.get_stock_data("PLTR", False)
-#
-# buy_sell_signals = BuySellSignalsService(hcnb_stock_data_2)
-# result = buy_sell_signals.get_buy_sell_signal(stock_data_pltr)
-#
-# print("d")

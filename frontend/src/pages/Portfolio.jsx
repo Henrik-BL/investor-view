@@ -69,7 +69,6 @@ function Portfolio() {
 
           setPortfolioOverview({
             holdings: Array.isArray(normalizedOverview.holdings) ? normalizedOverview.holdings : [],
-            sector_percentage: Array.isArray(normalizedOverview.sector_percentage) ? normalizedOverview.sector_percentage : [],
             industry_percentage: Array.isArray(normalizedOverview.industry_percentage) ? normalizedOverview.industry_percentage : [],
             total_value_sek: typeof normalizedOverview.total_value_sek === 'number' ? normalizedOverview.total_value_sek : null,
           })
@@ -100,7 +99,6 @@ function Portfolio() {
   }, [fetchPortfolioOverview])
 
   const holdings = portfolioOverview?.holdings || []
-  const sectorRows = portfolioOverview?.sector_percentage || []
   const industryRows = portfolioOverview?.industry_percentage || []
 
   const portfolioTickers = useMemo(() => {
@@ -119,17 +117,6 @@ function Portfolio() {
       totalValueSek: portfolioOverview?.total_value_sek ?? null,
     }
   }, [holdings, portfolioOverview])
-
-  const sectorConcentrationWarnings = useMemo(() => {
-    return sectorRows
-      .filter((row) => {
-        const percentage = typeof row?.percentage === 'number' ? row.percentage : Number(row?.percentage)
-        return !Number.isNaN(percentage) && percentage > 40
-      })
-      .map((row) => {
-        return `Sector ${row?.sector || 'Unknown'} above 40%, should reduce.`
-      })
-  }, [sectorRows])
 
   const industryConcentrationWarnings = useMemo(() => {
     return industryRows
@@ -304,37 +291,6 @@ function Portfolio() {
               </section>
 
               <div className="portfolio-breakdown-grid">
-                <section className="portfolio-section" aria-label="Sector allocation">
-                  <h2>Sector Allocation</h2>
-                  <div className="portfolio-table-wrap">
-                    <table className="portfolio-table">
-                      <thead>
-                        <tr>
-                          <th>Sector</th>
-                          <th>Value (SEK)</th>
-                          <th>Percentage</th>
-                          <th>Tickers</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sectorRows.length === 0 && (
-                          <tr>
-                            <td colSpan={4}>No sector data available.</td>
-                          </tr>
-                        )}
-                        {sectorRows.map((row) => (
-                          <tr key={row.sector} className={isAllocationWarning(row.percentage) ? 'portfolio-allocation-warning' : ''}>
-                            <td>{row.sector || '-'}</td>
-                            <td>{formatCurrencySek(row.value_sek)}</td>
-                            <td>{formatPercent(row.percentage)}</td>
-                            <td>{Array.isArray(row.tickers) && row.tickers.length > 0 ? row.tickers.join(', ') : '-'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </section>
-
                 <section className="portfolio-section" aria-label="Industry allocation">
                   <h2>Industry Allocation</h2>
                   <div className="portfolio-table-wrap">
@@ -371,10 +327,6 @@ function Portfolio() {
             <aside className="portfolio-todo-panel" aria-label="Todo list">
               <h2>Todo list</h2>
               <ul className="portfolio-todo-list">
-                {sectorConcentrationWarnings.map((warning) => (
-                  <li key={warning} className="portfolio-check-item portfolio-check-item--warning">{warning}</li>
-                ))}
-
                 {industryConcentrationWarnings.map((warning) => (
                   <li key={warning} className="portfolio-check-item portfolio-check-item--warning">{warning}</li>
                 ))}
@@ -383,7 +335,7 @@ function Portfolio() {
                   <li key={notification} className="portfolio-check-item portfolio-check-item--signal">{notification}</li>
                 ))}
 
-                {sectorConcentrationWarnings.length === 0 && industryConcentrationWarnings.length === 0 && signalNotifications.length === 0 && (
+                {industryConcentrationWarnings.length === 0 && signalNotifications.length === 0 && (
                   <li className="portfolio-check-item">No concentration warnings above 40%.</li>
                 )}
               </ul>

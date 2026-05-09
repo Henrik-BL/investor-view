@@ -228,3 +228,5 @@ frontend/dist-ssr
 frontend/*.local
 
 dev_2.py
+
+backend/portfolio_data/*

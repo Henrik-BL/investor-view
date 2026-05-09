@@ -113,27 +113,21 @@ function DividendPortfolio() {
             </article>
             <article className="dividend-summary-card">
               <span>Yearly Dividend</span>
-              <strong>{formatCurrencySek(dividendData.yearly_dividend ?? null)}</strong>
-              <small className="dividend-summary-subvalue">
-                <span>Yearly Dividend AT</span>
-                <b>{formatCurrencySek(dividendData.yearly_dividend_at ?? null)}</b>
-              </small>
+              <strong>{formatCurrencySek(dividendData.yearly_dividend ?? null, 2)}</strong>
+              <span>Yearly Dividend AT</span>
+              <strong>{formatCurrencySek(dividendData.yearly_dividend_at ?? null, 2)}</strong>
             </article>
             <article className="dividend-summary-card">
               <span>Monthly Dividend</span>
-              <strong>{formatCurrencySek(dividendData.monthly_divided ?? null)}</strong>
-              <small className="dividend-summary-subvalue">
-                <span>Monthly Dividend AT</span>
-                <b>{formatCurrencySek(dividendData.monthly_dividend_at ?? null)}</b>
-              </small>
+              <strong>{formatCurrencySek(dividendData.monthly_divided ?? null, 2)}</strong>
+              <span>Monthly Dividend AT</span>
+              <strong>{formatCurrencySek(dividendData.monthly_dividend_at ?? null, 2)}</strong>
             </article>
             <article className="dividend-summary-card">
               <span>Daily Dividend</span>
-              <strong>{formatCurrencySek(dividendData.daily_divided ?? null)}</strong>
-              <small className="dividend-summary-subvalue">
+              <strong>{formatCurrencySek(dividendData.daily_divided ?? null, 2)}</strong>
                 <span>Daily Dividend AT</span>
-                <b>{formatCurrencySek(dividendData.daily_dividend_at ?? null)}</b>
-              </small>
+                <strong>{formatCurrencySek(dividendData.daily_dividend_at ?? null, 2)}</strong>
             </article>
             <article className="dividend-summary-card">
               <span>Payouts / Year</span>

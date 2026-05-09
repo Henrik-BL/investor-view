@@ -36,7 +36,6 @@ class DividendPortfolioService:
             holding['dividend_yield'] = stock_data.dividend_yield
             holding['yearly_dividend_amount_sek'] = self._get_yearly_dividend_amount_sek(holding)
 
-
             payouts += holding['payouts'] if 'payouts' in holding else 0
             if holding['payouts'] == 0:
                 stocks_without_dividend.append(holding['ticker'])
@@ -50,7 +49,6 @@ class DividendPortfolioService:
 
         sector_percentage = self._calculate_group_percentage(portfolio_holding, 'sector', total_portfolio_value)
         industry_percentage = self._calculate_group_percentage(portfolio_holding, 'industry', total_portfolio_value)
-
         portfolio_holding.sort(key=lambda p_item: p_item["holding_value_sek"], reverse=True)
 
         return {
@@ -98,7 +96,13 @@ class DividendPortfolioService:
             return []
         with self.portfolio_file_path.open('r', encoding='utf-8') as f:
             data = json.load(f)
-        holdings = data.get('holdings', []) if isinstance(data, dict) else []
+
+        holdings = []
+        holdings += data['holdings']['Avanza'] if isinstance(data, dict) else []
+        holdings += data['holdings']['Nordnet'] if isinstance(data, dict) else []
+        holdings += data['holdings']['Montrose'] if isinstance(data, dict) else []
+
+
         aggregated_holdings = self._get_aggregated_holdings(holdings)
         return aggregated_holdings
 
@@ -145,14 +149,14 @@ class DividendPortfolioService:
                            payouts: int,
                            total_dividend_amount_sek: float,
                            stocks_without_dividend: list[str]) -> dict:
-        monthly_divided = round(total_dividend_amount_sek / 12)
-        daily_divided = round(total_dividend_amount_sek / 365)
+        monthly_divided = round(total_dividend_amount_sek / 12, 2)
+        daily_divided = round(total_dividend_amount_sek / 365, 2)
 
         tax_amount = TaxCalculator.kf_yearly_fraction(total_portfolio_value)
 
         yearly_dividend_at = round(total_dividend_amount_sek - tax_amount)
-        monthly_dividend_at = round(yearly_dividend_at / 12)
-        daily_dividend_at = round(yearly_dividend_at / 365)
+        monthly_dividend_at = round(yearly_dividend_at / 12, 2)
+        daily_dividend_at = round(yearly_dividend_at / 365, 2)
 
 
         return {
@@ -165,11 +169,3 @@ class DividendPortfolioService:
             "daily_dividend_at": daily_dividend_at,
             "stocks_without_dividend": stocks_without_dividend
         }
-
-# dividend_portfolio_service = DividendPortfolioService(HcnbStockData())
-#
-# result_2 = dividend_portfolio_service.get_portfolio_overview()
-#
-# for item in result_2['holdings']:
-#     print(item['dividend_yield'])
-#     print(item['yearly_dividend_amount_sek'])

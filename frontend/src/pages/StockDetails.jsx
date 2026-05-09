@@ -185,6 +185,7 @@ const cagrMetricOptions = [
 
 const detailTabOptions = [
   { key: 'analysis', label: 'Analysis' },
+  { key: 'buy-sell-signals', label: 'Buy Sell Signals' },
 ]
 
 const cagrMetricLabelsByKey = cagrMetricOptions.reduce((accumulator, item) => {
@@ -570,8 +571,9 @@ function StockDetails() {
   return (
     <div className="stock-details-page">
       <div className="stock-details-header">
-        <div className="stock-details-header-actions">
-          <Link to="/screener" className="stock-details-back-link">← Back to Screener</Link>
+        <h1 className="stock-details-header-title">
+          <span>{companyDisplayName}</span>
+          {selectedTicker && <span className="stock-details-header-ticker">({selectedTicker})</span>}
           <button
             type="button"
             className="stock-details-update-btn"
@@ -581,10 +583,6 @@ function StockDetails() {
           >
             {isUpdatingTicker ? 'Updating...' : 'Update'}
           </button>
-        </div>
-        <h1 className="stock-details-header-title">
-          <span>{companyDisplayName}</span>
-          {selectedTicker && <span className="stock-details-header-ticker">({selectedTicker})</span>}
         </h1>
       </div>
 
@@ -770,6 +768,51 @@ function StockDetails() {
             id={`stock-details-panel-${activeDetailTab}`}
             aria-labelledby={`stock-details-tab-${activeDetailTab}`}
           >
+            {activeDetailTab === 'buy-sell-signals' && (() => {
+              const signals = stockDetails?.buy_sell_signals
+              if (!signals) {
+                return <p className="stock-details-status">No buy/sell signals available.</p>
+              }
+              const { buy_points, sell_points, points_calculated = [] } = signals
+              return (
+                <div className="stock-details-buy-sell-signals">
+                  <div className="stock-details-signals-scoreboard">
+                    <div className={`stock-details-signals-score ${typeof buy_points === 'number' && buy_points >= 3 ? 'stock-details-signals-score--buy' : 'stock-details-signals-score--neutral'}`}>
+                      <span className="stock-details-signals-score-label">Buy Points</span>
+                      <span className="stock-details-signals-score-value">{buy_points ?? '-'}</span>
+                    </div>
+                    <div className={`stock-details-signals-score ${typeof sell_points === 'number' && sell_points >= 3 ? 'stock-details-signals-score--sell' : 'stock-details-signals-score--neutral'}`}>
+                      <span className="stock-details-signals-score-label">Sell Points</span>
+                      <span className="stock-details-signals-score-value">{sell_points ?? '-'}</span>
+                    </div>
+                  </div>
+
+                  {points_calculated.length > 0 && (
+                    <table className="stock-details-signals-table">
+                      <thead>
+                        <tr>
+                          <th>Signal</th>
+                          <th>Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {points_calculated.map(([label, value], index) => {
+                          const lower = label.toLowerCase()
+                          const type = lower.includes('buy') ? 'buy' : lower.includes('sell') ? 'sell' : 'neutral'
+                          return (
+                            <tr key={index} className={`stock-details-signals-row--${type}`}>
+                              <td>{label}</td>
+                              <td>{typeof value === 'number' ? value.toFixed(2) : value ?? '-'}</td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              )
+            })()}
+
             {activeDetailTab === 'analysis' && (
               <div className="stock-details-charts-row">
                 <section className="stock-details-charts-section" aria-label="Reports chart">

@@ -1,10 +1,50 @@
 {
-  "holdings": [
-    {
-      "ticker": "GOOG",
-      "quantity": 1,
-      "account": "Avanza",
-      "payouts": 4
-    }
-  ]
+  "holdings": {
+    "Avanza": [
+      { "ticker": "GOOG", "quantity": 11, "payouts": 4 },
+      { "ticker": "JNJ", "quantity": 12, "payouts": 4 },
+      { "ticker": "XOM", "quantity": 19, "payouts": 4 },
+      { "ticker": "PM", "quantity": 13, "payouts": 4 },
+      { "ticker": "O", "quantity": 36, "payouts": 12 },
+      { "ticker": "MCD", "quantity": 7, "payouts": 4 },
+      { "ticker": "CSHR", "quantity": 156, "payouts": 4 },
+      { "ticker": "NEE", "quantity": 32, "payouts": 4 },
+      { "ticker": "CIBUS.ST", "quantity": 173, "payouts": 4 },
+      { "ticker": "META", "quantity": 3, "payouts": 4 },
+      { "ticker": "NOVO-B.CO", "quantity": 51, "payouts": 2 },
+      { "ticker": "AAK.ST", "quantity": 82, "payouts": 1 },
+      { "ticker": "AMCR", "quantity": 26, "payouts": 4 }
+    ],
+    "Nordnet": [
+      { "ticker": "UNH", "quantity": 4, "payouts": 4 },
+      { "ticker": "ATCO-B.ST", "quantity": 74, "payouts": 2 },
+      { "ticker": "CVX", "quantity": 7, "payouts": 4 },
+      { "ticker": "MA", "quantity": 2, "payouts": 4 },
+      { "ticker": "SWED-A.ST", "quantity": 24, "payouts": 1 },
+      { "ticker": "STAG", "quantity": 23, "payouts": 12 },
+      { "ticker": "BRO", "quantity": 10, "payouts": 4 },
+      { "ticker": "V", "quantity": 2, "payouts": 4 },
+      { "ticker": "PEP", "quantity": 4, "payouts": 4 },
+      { "ticker": "O", "quantity": 9, "payouts": 12 },
+      { "ticker": "CIBUS.ST", "quantity": 31, "payouts": 4 },
+      { "ticker": "KO", "quantity": 7, "payouts": 4 },
+      { "ticker": "NOVO-B.CO", "quantity": 8, "payouts": 2 },
+      { "ticker": "VIT-B.ST", "quantity": 13, "payouts": 4 },
+      { "ticker": "TINGS-PREF.ST", "quantity": 9, "payouts": 12 },
+      { "ticker": "EG", "quantity": 1, "payouts": 4 },
+      { "ticker": "HACK.ST", "quantity": 18, "payouts": 1 },
+      { "ticker": "HUSQ-B.ST", "quantity": 146, "payouts": 2 }
+    ],
+    "Montrose": [
+      { "ticker": "TGT", "quantity": 11, "payouts": 4 },
+      { "ticker": "AXFO.ST", "quantity": 20, "payouts": 4 },
+      { "ticker": "ASSA-B.ST", "quantity": 15, "payouts": 2 },
+      { "ticker": "KO", "quantity": 17, "payouts": 4 },
+      { "ticker": "ATEA.OL", "quantity": 35, "payouts": 2 },
+      { "ticker": "PG", "quantity": 7, "payouts": 4 },
+      { "ticker": "BETS-B.ST", "quantity": 3, "payouts": 1 },
+      { "ticker": "SHB-A.ST", "quantity": 4, "payouts": 1 },
+      { "ticker": "HACK.ST", "quantity": 3, "payouts": 1 }
+    ]
+  }
 }

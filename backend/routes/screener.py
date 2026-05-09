@@ -3,6 +3,7 @@ from flask import request, jsonify, Response
 import json
 
 from backend.extensions import hcnb_stock_data
+from backend.src.buy_sell_signals_service import BuySellSignalsService
 
 screener_bp = Blueprint('screener', __name__, url_prefix='/api/screener')
 
@@ -60,7 +61,7 @@ def update_data():
             requested_tickers = [t.strip() for t in tickers_param.split(',') if t.strip()]
 
     def event_stream():
-        hcnb_stock_data.update_limit_hours = 0
+        hcnb_stock_data.update_limit_hours = 1
         tickers = requested_tickers if requested_tickers else hcnb_stock_data.get_all_tickers()
         total = len(tickers)
 
@@ -133,4 +134,7 @@ def fetch_stock_data():
         return jsonify({"Message": "Invalid ticker"}), 400
 
     stock_data = hcnb_stock_data.get_stock_data(ticker_input, False)
-    return jsonify(stock_data.__dict__), 200
+    json_response = stock_data.__dict__
+    buy_sell_signals = BuySellSignalsService(hcnb_stock_data)
+    json_response['buy_sell_signals'] = buy_sell_signals.get_buy_sell_signal(stock_data)
+    return jsonify(json_response), 200
