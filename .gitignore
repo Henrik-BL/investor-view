@@ -230,3 +230,5 @@ frontend/*.local
 dev_2.py
 
 backend/portfolio_data/*
+
+dev_scripts

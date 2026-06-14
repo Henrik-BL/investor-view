@@ -5,3 +5,6 @@ Invoke-WebRequest -Uri "http://localhost:5000/api/screener/add_ticker" -Method P
 Invoke-WebRequest -Uri "http://localhost:5000/api/screener/screener_list" -Method GET
 
 
+
+$response = Invoke-WebRequest -Uri "http://localhost:5000/api/portfolio/overview" -Method GET
+$response.Content | ConvertFrom-Json | ConvertTo-Json -Depth 100

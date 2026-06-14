@@ -2,22 +2,27 @@
   "holdings": [
     {
       "ticker": "PLEJD.ST",
-      "quantity": 778,
+      "quantity": 728,
       "account": "Avanza"
     },
     {
       "ticker": "APP",
-      "quantity": 68,
+      "quantity": 52,
       "account": "Avanza"
     },
     {
       "ticker": "PLTR",
-      "quantity": 419,
+      "quantity": 392,
       "account": "Avanza"
     },
     {
       "ticker": "MU",
       "quantity": 44,
+      "account": "Avanza"
+    },
+    {
+      "ticker": "SHT-B.ST",
+      "quantity": 1520,
       "account": "Avanza"
     },
     {
