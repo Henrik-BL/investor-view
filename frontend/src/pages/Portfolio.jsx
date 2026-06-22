@@ -35,7 +35,24 @@ const getPointsTone = (type, points) => {
     return 'neutral'
   }
 
-  return type === 'buy' ? 'buy' : 'sell'
+  return type === 'buy' ? 'buy' : type === 'sell' ? 'sell' : 'neutral'
+}
+
+const getSignalTooltip = (holding, type) => {
+  const signals = holding?.buy_sell_signals || {}
+  const signalList = type === 'buy'
+    ? signals.buy_points_calculated
+    : type === 'sell'
+      ? signals.sell_points_calculated
+      : signals.neutral_or_missing_data
+
+  if (!Array.isArray(signalList) || signalList.length === 0) {
+    return ''
+  }
+
+  return signalList
+    .map(([label, value]) => `${label}: ${value}`)
+    .join('\n')
 }
 
 function Portfolio() {
@@ -45,6 +62,32 @@ function Portfolio() {
   const [isUpdatingTickers, setIsUpdatingTickers] = useState(false)
   const [requestMessage, setRequestMessage] = useState('')
   const [requestStatus, setRequestStatus] = useState('')
+  const [tooltipState, setTooltipState] = useState({
+    visible: false,
+    content: '',
+    left: 0,
+    top: 0,
+  })
+
+  const showTooltip = useCallback((holding, type, event) => {
+    const content = getSignalTooltip(holding, type)
+    if (!content) {
+      setTooltipState((current) => ({ ...current, visible: false }))
+      return
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect()
+    setTooltipState({
+      visible: true,
+      content,
+      left: rect.left + rect.width / 2,
+      top: rect.bottom + 10,
+    })
+  }, [])
+
+  const hideTooltip = useCallback(() => {
+    setTooltipState((current) => ({ ...current, visible: false }))
+  }, [])
 
   const fetchPortfolioOverview = useCallback(async () => {
     setIsLoading(true)
@@ -216,11 +259,17 @@ function Portfolio() {
           <button type="button" className="portfolio-update-btn" onClick={handleUpdateTickers} disabled={isLoading || isUpdatingTickers}>
             {isUpdatingTickers ? 'Updating...' : 'Update Tickers'}
           </button>
-          <button type="button" className="portfolio-refresh-btn" onClick={fetchPortfolioOverview} disabled={isLoading || isUpdatingTickers}>
-            {isLoading ? 'Loading...' : 'Refresh'}
-          </button>
         </div>
       </div>
+      {tooltipState.visible && (
+        <div
+          className="portfolio-tooltip"
+          style={{ left: tooltipState.left, top: tooltipState.top }}
+          role="tooltip"
+        >
+          {tooltipState.content}
+        </div>
+      )}
 
       {errorMessage && (
         <div className="portfolio-error-wrap">
@@ -255,7 +304,7 @@ function Portfolio() {
                         <th>Sector</th>
                         <th>Industry</th>
                         <th>Accounts</th>
-                        <th>Buy/Sell Points</th>
+                        <th>Buy / Sell / Neutral</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -275,11 +324,35 @@ function Portfolio() {
                           <td>{Array.isArray(holding.accounts) && holding.accounts.length > 0 ? holding.accounts.join(', ') : '-'}</td>
                           <td>
                             <div className="portfolio-points-wrap">
-                              <span className={`portfolio-points-badge portfolio-points-badge--${getPointsTone('buy', holding.buy_sell_signals?.buy_points)}`}>
+                              <span
+                                className={`portfolio-points-badge portfolio-points-badge--${getPointsTone('buy', holding.buy_sell_signals?.buy_points)}`}
+                                onMouseEnter={(event) => showTooltip(holding, 'buy', event)}
+                                onMouseLeave={hideTooltip}
+                                onFocus={(event) => showTooltip(holding, 'buy', event)}
+                                onBlur={hideTooltip}
+                                aria-label={getSignalTooltip(holding, 'buy') || `Buy: ${holding.buy_sell_signals?.buy_points ?? 0}`}
+                              >
                                 Buy: {holding.buy_sell_signals?.buy_points ?? 0}
                               </span>
-                              <span className={`portfolio-points-badge portfolio-points-badge--${getPointsTone('sell', holding.buy_sell_signals?.sell_points)}`}>
+                              <span
+                                className={`portfolio-points-badge portfolio-points-badge--${getPointsTone('sell', holding.buy_sell_signals?.sell_points)}`}
+                                onMouseEnter={(event) => showTooltip(holding, 'sell', event)}
+                                onMouseLeave={hideTooltip}
+                                onFocus={(event) => showTooltip(holding, 'sell', event)}
+                                onBlur={hideTooltip}
+                                aria-label={getSignalTooltip(holding, 'sell') || `Sell: ${holding.buy_sell_signals?.sell_points ?? 0}`}
+                              >
                                 Sell: {holding.buy_sell_signals?.sell_points ?? 0}
+                              </span>
+                              <span
+                                className={`portfolio-points-badge portfolio-points-badge--neutral`}
+                                onMouseEnter={(event) => showTooltip(holding, 'neutral', event)}
+                                onMouseLeave={hideTooltip}
+                                onFocus={(event) => showTooltip(holding, 'neutral', event)}
+                                onBlur={hideTooltip}
+                                aria-label={getSignalTooltip(holding, 'neutral') || `Neutral: ${Array.isArray(holding.buy_sell_signals?.neutral_or_missing_data) ? holding.buy_sell_signals.neutral_or_missing_data.length : 0}`}
+                              >
+                                Neutral: {Array.isArray(holding.buy_sell_signals?.neutral_or_missing_data) ? holding.buy_sell_signals.neutral_or_missing_data.length : 0}
                               </span>
                             </div>
                           </td>
