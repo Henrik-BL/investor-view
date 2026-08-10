@@ -6,7 +6,6 @@
 [CmdletBinding()]
 param(
     [string]$Branch = "main",
-    [string]$LocalHcnbStockDataPath = "",
     [int]$FrontendPort = 3000,
     [int]$BackendPort = 5000
 )
@@ -35,23 +34,23 @@ try {
     git pull --ff-only origin $Branch
 
     $localHcnbTemp = Join-Path $PSScriptRoot "backend/_local_hcnb_stock_data"
-    if ($LocalHcnbStockDataPath) {
-        if (-not (Test-Path $LocalHcnbStockDataPath)) {
-            throw "Local hcnb_stock_data path '$LocalHcnbStockDataPath' does not exist."
-        }
+    $sourceHcnbStockDataPath = "C:\repos\hcnb-stock-data"
 
-        Write-Status "Copying local hcnb_stock_data package from $LocalHcnbStockDataPath"
-        Remove-Item -Path $localHcnbTemp -Recurse -Force -ErrorAction SilentlyContinue
-        New-Item -ItemType Directory -Path $localHcnbTemp | Out-Null
-        Copy-Item -Path (Join-Path $LocalHcnbStockDataPath '*') -Destination $localHcnbTemp -Recurse -Force
+    if (-not (Test-Path $sourceHcnbStockDataPath)) {
+        throw "Local hcnb_stock_data path '$sourceHcnbStockDataPath' does not exist."
+    }
 
-        # Ensure models is a package
-        $modelsDir = Join-Path $localHcnbTemp 'src\hcnb_stock_data\models'
-        if (Test-Path $modelsDir) {
-            $modelsInit = Join-Path $modelsDir '__init__.py'
-            if (-not (Test-Path $modelsInit)) {
-                New-Item -ItemType File -Path $modelsInit -Value '' -Force
-            }
+    Write-Status "Copying local hcnb_stock_data package from $sourceHcnbStockDataPath"
+    Remove-Item -Path $localHcnbTemp -Recurse -Force -ErrorAction SilentlyContinue
+    New-Item -ItemType Directory -Path $localHcnbTemp | Out-Null
+    Copy-Item -Path (Join-Path $sourceHcnbStockDataPath '*') -Destination $localHcnbTemp -Recurse -Force
+
+    # Ensure models is a package
+    $modelsDir = Join-Path $localHcnbTemp 'src\hcnb_stock_data\models'
+    if (Test-Path $modelsDir) {
+        $modelsInit = Join-Path $modelsDir '__init__.py'
+        if (-not (Test-Path $modelsInit)) {
+            New-Item -ItemType File -Path $modelsInit -Value '' -Force
         }
     }
 
@@ -60,6 +59,9 @@ try {
 
     Write-Status "Building frontend image..."
     docker build --no-cache -t investor-view-frontend:local -f frontend/Dockerfile frontend
+
+    Write-Status "Removing copied local hcnb_stock_data staging directory..."
+    Remove-Item -Path $localHcnbTemp -Recurse -Force -ErrorAction SilentlyContinue
 
     Write-Status "Checking for running containers..."
     $runningContainers = docker ps --filter "name=investor-view-backend" --filter "name=investor-view-frontend" --format "{{.Names}}" 2>$null
